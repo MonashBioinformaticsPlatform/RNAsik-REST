@@ -1,0 +1,141 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: RNAsik Pipe job
+  description: |
+    **Run RNAsik-pipe jobs**
+basePath: /api
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+  - text/xml
+produces:
+  - application/json
+  - text/html
+paths:
+  /runs:
+    get:
+      description: Returns all runs from the system that the user has access to
+      operationId: findRuns
+      produces:
+        - application/json
+        - application/xml
+        - text/xml
+        - text/html
+      responses:
+        '200':
+          description: run response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/run'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'  
+    post:
+      description: Creates a new RNAsik pipe run
+      operationId: addRun
+      produces:
+        - application/json    
+      parameters:
+        - name: run
+          in: body
+          description: The JSON you want to post
+          schema:
+            $ref: '#/definitions/newRun'
+          required: true
+      responses:
+        '200':
+          description: pet response
+          schema:
+            $ref: '#/definitions/run'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+definitions:
+  run:
+    type: object
+    required:
+      - name    
+    properties:
+      name:
+        type: string
+      makeIndices:
+        type: boolean
+      star:
+        type: boolean
+      fqDir:
+        type: string
+      fqDirs:
+        type: string
+      fqRegex:
+        type: string
+      genomeInddex:
+        type: string
+      extn:
+        type: string
+      sampleNames:
+        type: string
+      count:
+        type: boolean
+      gtfFile:
+        type: string
+      prePro:
+        type: boolean
+      fastaRef:
+        type: string
+      fastqc:
+        type: boolean
+      rnaseqqc:
+        type: boolean
+  newRun:
+    type: object
+    required:
+      - name    
+    properties:
+      name:
+        type: string
+      makeIndices:
+        type: boolean
+      star:
+        type: boolean
+      fqDir:
+        type: string
+      fqDirs:
+        type: string
+      fqRegex:
+        type: string
+      genomeInddex:
+        type: string
+      extn:
+        type: string
+      sampleNames:
+        type: string
+      count:
+        type: boolean
+      gtfFile:
+        type: string
+      prePro:
+        type: boolean
+      fastaRef:
+        type: string
+      fastqc:
+        type: boolean
+      rnaseqqc:
+        type: boolean
+  errorModel:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string        
+
